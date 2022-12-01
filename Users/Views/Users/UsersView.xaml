@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       x:Class="Users.Views.UsersView"
+                       xmlns:views="clr-namespace:Users.Views"
+                       xmlns:viewmodels="clr-namespace:Users.ViewModels"
+                       viewmodels:ViewModelLocator.AutoWireViewModel="True"
+                       xmlns:model="clr-namespace:Users.Models"
+                       BackgroundColor="White"
+                       xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                       xmlns:ffimagetransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+                       x:DataType="viewmodels:UsersViewModel">
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *">
+            <!--Title-->
+            <ffimage:CachedImage Source="header.png"/>
+
+            <!--Users-->
+            <RefreshView Command="{Binding LoadDataCommand}" Grid.Row="1" BackgroundColor="Red" IsRefreshing="{Binding IsRefreshing}">
+                <CollectionView ItemsSource="{Binding Users}"
+                                RemainingItemsThresholdReachedCommand="{Binding LoadNextPageCommand}"
+                                RemainingItemsThreshold="6"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:User">
+                            <Grid RowDefinitions="auto, auto" ColumnDefinitions="auto, *">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:UsersViewModel}}, Path=ItemSelectedCommand}" CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+                                <!--User Image-->
+                                <ffimage:CachedImage WidthRequest="50" HeightRequest="50" Source="{Binding ImageUrl}" Margin="10" VerticalOptions="Center" Grid.RowSpan="3">
+                                    <ffimage:CachedImage.Transformations>
+                                        <ffimagetransformations:CircleTransformation/>
+                                    </ffimage:CachedImage.Transformations>
+                                </ffimage:CachedImage>
+
+                                <StackLayout Grid.Row="1" Grid.Column="1">
+                                    <!--Name-->
+                                    <Label Text="{Binding Name}" TextColor="Black" FontSize="20" VerticalOptions="End"/>
+
+                                    <!--Email-->
+                                    <Label Text="{Binding Email}" Grid.Row="1" TextColor="Black" FontSize="14" VerticalOptions="Start"/>
+
+                                    <!--Separator-->
+                                    <BoxView HeightRequest="1" Color="Black" Opacity="0.2"/>
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </Grid>
+    </ContentPage.Content>
+</views:BaseContentPage>

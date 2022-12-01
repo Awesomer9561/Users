@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Users.Views.UserDetailsView"
+             xmlns:views="clr-namespace:Users.Views"
+             xmlns:viewmodels="clr-namespace:Users.ViewModels"
+             viewmodels:ViewModelLocator.AutoWireViewModel="True"
+                       xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                       xmlns:ffimagetransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+                       x:DataType="viewmodels:UserDetailsViewModel">
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *, *">
+            <!--Back Icon-->
+            <ffimage:CachedImage Source="ic_menu.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="Start" VerticalOptions="Start"
+                                 Margin="25">
+                <ffimage:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CloseCommand}"/>
+                </ffimage:CachedImage.GestureRecognizers>
+            </ffimage:CachedImage>
+
+            <!--Background Banner-->
+            <ffimage:CachedImage Source="image_background.png" Grid.Row="1" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
+                                 Aspect="Fill"/>
+
+            <!--Profile Image-->
+            <ffimage:CachedImage Source="{Binding User.ImageUrl}" Aspect="AspectFill" HeightRequest="240" WidthRequest="240" HorizontalOptions="Center" VerticalOptions="Center" 
+                                     Grid.Row="1" >
+                <ffimage:CachedImage.Transformations>
+                    <ffimagetransformations:CircleTransformation />
+                </ffimage:CachedImage.Transformations>
+            </ffimage:CachedImage>
+
+            <StackLayout Grid.Row="2">
+                <Label Text="{Binding User.Name}" FontSize="30" FontAttributes="Bold" TextColor="Black" 
+                   HorizontalOptions="Center"/>
+                <Label Text="{Binding User.Email}" FontSize="14" FontAttributes="Bold" TextColor="Black" 
+                   HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding EmailUserCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</views:BaseContentPage>
