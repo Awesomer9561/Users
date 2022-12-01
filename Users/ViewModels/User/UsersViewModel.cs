@@ -85,11 +85,6 @@ namespace Users.ViewModels
             {
                 LoadDataCommand.Execute(null);
                 IsDataLoaded = true;
-
-                var serializedCounter = Xamarin.Essentials.Preferences.Get("counter", "");
-                int.TryParse(serializedCounter, out int value);
-                await Application.Current.MainPage.DisplayAlert("", $"App has been opened {value} times", "Ok");
-                Xamarin.Essentials.Preferences.Set("counter", (++value).ToString());
             }
         }
         #endregion

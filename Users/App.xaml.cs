@@ -26,8 +26,13 @@ namespace Users
             }
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
+
+            var serializedCounter = Xamarin.Essentials.Preferences.Get("counter", "");
+            int.TryParse(serializedCounter, out int value);
+            await Current.MainPage.DisplayAlert("", $"App has been opened {value} times", "Ok");
+            Xamarin.Essentials.Preferences.Set("counter", (++value).ToString());
         }
 
         protected override void OnSleep()
